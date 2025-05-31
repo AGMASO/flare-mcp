@@ -51,22 +51,18 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         description:
           "Get current FLR/USD price feed from Flare's FtsoV2 contract (MainNet).",
         inputSchema: flrSchema,
-        // fallback legacy field
-        schema: flrSchema,
       },
       {
         name: "get_btc_usd_price",
         description:
           "Get current BTC/USD price feed from Flare's FtsoV2 contract (MainNet).",
         inputSchema: btcSchema,
-        schema: btcSchema,
       },
       {
         name: "get_eth_usd_price",
         description:
           "Get current ETH/USD price feed from Flare's FtsoV2 contract (MainNet).",
         inputSchema: ethSchema,
-        schema: ethSchema,
       },
     ],
   };
