@@ -89,7 +89,13 @@ async function fetchFtsoPrice(index: any, label: any) {
   const ftsov2 = new ethers.Contract(FTSOV2_ADDRESS, abi, provider);
 
   try {
-    const [prices, decimals, timestamp] = await ftsov2.getFeedsById(FEED_IDS);
+    const [prices, decimals, timestamp] = await ftsov2.getFeedsById.staticCall(
+      FEED_IDS
+    );
+
+    console.log("Prices:", prices);
+    console.log("Decimals:", decimals);
+    console.log("Timestamp:", timestamp);
     const value = Number(prices[index]) / 10 ** decimals[index];
 
     return {
