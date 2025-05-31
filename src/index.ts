@@ -41,28 +41,25 @@ const server = new Server(
 
 // Lista de herramientas
 server.setRequestHandler(ListToolsRequestSchema, async () => {
-  const flrSchema = zodToJsonSchema(GetFlrUsdPriceSchema);
-  const btcSchema = zodToJsonSchema(GetBtcUsdPriceSchema);
-  const ethSchema = zodToJsonSchema(GetEthUsdPriceSchema);
   return {
     tools: [
       {
         name: "get_flr_usd_price",
         description:
           "Get current FLR/USD price feed from Flare's FtsoV2 contract (MainNet).",
-        inputSchema: flrSchema,
+        inputSchema: GetFlrUsdPriceSchema,
       },
       {
         name: "get_btc_usd_price",
         description:
           "Get current BTC/USD price feed from Flare's FtsoV2 contract (MainNet).",
-        inputSchema: btcSchema,
+        inputSchema: GetBtcUsdPriceSchema,
       },
       {
         name: "get_eth_usd_price",
         description:
           "Get current ETH/USD price feed from Flare's FtsoV2 contract (MainNet).",
-        inputSchema: ethSchema,
+        inputSchema: GetEthUsdPriceSchema,
       },
     ],
   };
