@@ -5,7 +5,6 @@ import {
   ListToolsRequestSchema,
   CallToolRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
-import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import { ethers } from "ethers";
 import { interfaceToAbi } from "@flarenetwork/flare-periphery-contract-artifacts";
@@ -64,8 +63,8 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     ],
   };
 });
+const abi = interfaceToAbi("FtsoV2Interface", "flare");
 
-// Handler de cada herramienta
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const name = request.params.name;
   if (!name) throw new Error("Missing tool name");
@@ -84,27 +83,21 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
 // Función auxiliar para obtener precio por índice y etiqueta
 async function fetchFtsoPrice(index: any, label: any) {
-  const abi = interfaceToAbi("FtsoV2Interface", "flare");
-  const provider = new ethers.JsonRpcProvider(RPC_URL);
-  const ftsov2 = new ethers.Contract(FTSOV2_ADDRESS, abi, provider);
-
   try {
-    const [prices, decimals, timestamp] = await ftsov2.getFeedsById.staticCall(
-      FEED_IDS,
-      { value: 0 }
-    );
-
-    console.log("Prices:", prices);
-    console.log("Decimals:", decimals);
-    console.log("Timestamp:", timestamp);
-
+    // Connect to an RPC node
+    const provider = new ethers.JsonRpcProvider(RPC_URL);
+    // Set up contract instance
+    const ftsov2 = new ethers.Contract(FTSOV2_ADDRESS, abi, provider);
+    // Fetch current feeds
+    const res = await ftsov2.getFeedsById.staticCall(FEED_IDS);
+    // Log results
     return {
       content: [
         {
           type: "text",
-          text: `Precio actual de ${label}: $${prices[index].toFixed(
+          text: `Precio actual de ${label}: $${Number(res[0][index]).toFixed(
             6
-          )}\n Timestamp: ${new Date(Number(timestamp) * 1000).toISOString()}`,
+          )}\n Timestamp: ${new Date(Number(res[2]) * 1000).toISOString()}`,
         },
       ],
     };
@@ -113,7 +106,7 @@ async function fetchFtsoPrice(index: any, label: any) {
       content: [
         {
           type: "text",
-          text: ` Error fetching ${label} price: ${err.message}`,
+          text: `Error fetching ${label} price: ${err.message}`,
         },
       ],
     };
