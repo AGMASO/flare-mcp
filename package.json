@@ -1,6 +1,6 @@
 {
   "name": "flare-ftso-mcp",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "A MCP server for Flare's FtsoV2 price feeds",
   "license": "MIT",
   "main": "dist/index.js",
