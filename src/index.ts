@@ -90,19 +90,19 @@ async function fetchFtsoPrice(index: any, label: any) {
 
   try {
     const [prices, decimals, timestamp] = await ftsov2.getFeedsById.staticCall(
-      FEED_IDS
+      FEED_IDS,
+      { value: 0 }
     );
 
     console.log("Prices:", prices);
     console.log("Decimals:", decimals);
     console.log("Timestamp:", timestamp);
-    const value = Number(prices[index]) / 10 ** decimals[index];
 
     return {
       content: [
         {
           type: "text",
-          text: `Precio actual de ${label}: $${value.toFixed(
+          text: `Precio actual de ${label}: $${prices[index].toFixed(
             6
           )}\n Timestamp: ${new Date(Number(timestamp) * 1000).toISOString()}`,
         },
