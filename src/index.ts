@@ -47,19 +47,19 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         name: "get_flr_usd_price",
         description:
           "Get current FLR/USD price feed from Flare's FtsoV2 contract (MainNet).",
-        inputSchema: GetFlrUsdPriceSchema,
+        inputSchema: zodToJsonSchema(GetFlrUsdPriceSchema),
       },
       {
         name: "get_btc_usd_price",
         description:
           "Get current BTC/USD price feed from Flare's FtsoV2 contract (MainNet).",
-        inputSchema: GetBtcUsdPriceSchema,
+        inputSchema: zodToJsonSchema(GetBtcUsdPriceSchema),
       },
       {
         name: "get_eth_usd_price",
         description:
           "Get current ETH/USD price feed from Flare's FtsoV2 contract (MainNet).",
-        inputSchema: GetEthUsdPriceSchema,
+        inputSchema: zodToJsonSchema(GetEthUsdPriceSchema),
       },
     ],
   };
